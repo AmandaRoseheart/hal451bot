@@ -14,12 +14,10 @@ public class ChannelNotificationOnChannelMessage {
         eventHandler.onEvent(ChannelMessageEvent.class, event -> onDonation(event));
     }
 
-    /**
-     * Subscribe to the Donation Event
-     */
     public void onDonation(ChannelMessageEvent event) {
         if (event.getMessage().startsWith("$test")) {
-            event.getTwitchChat().sendMessage(event.getChannel().getName(), "Hello " + event.getUser().getName() + "!");
+            String message = String.format("Hello %s!", event.getUser().getName());
+            event.getTwitchChat().sendMessage(event.getChannel().getName(), message);
         }
     }
 
