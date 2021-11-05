@@ -1,0 +1,15 @@
+### specific files
+dependency-reduced-pom.xml
+
+### target folders
+**/target
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+
+### Batch files ###
+*.bat
