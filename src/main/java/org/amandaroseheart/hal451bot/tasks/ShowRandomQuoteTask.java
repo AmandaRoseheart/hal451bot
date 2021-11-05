@@ -28,11 +28,13 @@ public class ShowRandomQuoteTask extends TimerTask {
 
     @Override
     public void run() {
-        twitchClient.getChat().sendMessage("HAL451", getRandomLine().replace("Quote", ""));
+        twitchClient.getChat().sendMessage("HAL451", getRandomLine());
     }
 
     private String getRandomLine() {
-        return quotes.get(new Random().nextInt(quotes.size()));
+        return quotes
+                .get(new Random().nextInt(quotes.size()))
+                .replace("Quote", "");
     }
 
     private void readQuotes() throws IOException {
