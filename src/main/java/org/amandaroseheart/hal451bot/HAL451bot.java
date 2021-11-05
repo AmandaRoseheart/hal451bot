@@ -17,16 +17,11 @@ public class HAL451bot {
     private String ACCESS_TOKEN = System.getenv("ACCESS_TOKEN");
 
     public HAL451bot() {
-
-        System.out.println("Access token = " + ACCESS_TOKEN);
-
         OAuth2Credential credential = new OAuth2Credential("twitch", ACCESS_TOKEN);
-
         twitchClient = TwitchClientBuilder.builder()
                 .withEnableChat(true)
                 .withChatAccount(credential)
                 .build();
-
     }
 
     public void registerFeatures() {
