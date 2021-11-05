@@ -11,10 +11,10 @@ public class ChannelNotificationOnChannelMessage {
      * @param eventHandler SimpleEventHandler
      */
     public ChannelNotificationOnChannelMessage(SimpleEventHandler eventHandler) {
-        eventHandler.onEvent(ChannelMessageEvent.class, event -> onDonation(event));
+        eventHandler.onEvent(ChannelMessageEvent.class, event -> onChannelMessage(event));
     }
 
-    public void onDonation(ChannelMessageEvent event) {
+    public void onChannelMessage(ChannelMessageEvent event) {
         if (event.getMessage().startsWith("$test")) {
             String message = String.format("Hello %s!", event.getUser().getName());
             event.getTwitchChat().sendMessage(event.getChannel().getName(), message);
