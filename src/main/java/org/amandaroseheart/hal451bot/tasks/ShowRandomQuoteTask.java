@@ -32,12 +32,11 @@ public class ShowRandomQuoteTask extends TimerTask {
     }
 
     private String getRandomLine() {
-        Random random = new Random();
-        return quotes.get(random.nextInt(quotes.size()));
+        return quotes.get(new Random().nextInt(quotes.size()));
     }
 
     private void readQuotes() throws IOException {
-        InputStreamReader isr = new InputStreamReader(getFileAsIOStream("quotes.txt"));
+        InputStreamReader isr = new InputStreamReader(getFileAsInputStream("quotes.txt"));
         BufferedReader br = new BufferedReader(isr);
         String line;
         while ((line = br.readLine()) != null) {
@@ -45,9 +44,8 @@ public class ShowRandomQuoteTask extends TimerTask {
         }
     }
 
-    private InputStream getFileAsIOStream(final String fileName) {
-        InputStream ioStream = getClass().getClassLoader().getResourceAsStream(fileName);
-        return ioStream;
+    private InputStream getFileAsInputStream(final String fileName) {
+        return getClass().getClassLoader().getResourceAsStream(fileName);
     }
 
 }
