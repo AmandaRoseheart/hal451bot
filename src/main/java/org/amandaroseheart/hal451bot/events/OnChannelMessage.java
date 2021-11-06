@@ -1,16 +1,16 @@
-package org.amandaroseheart.hal451bot.features;
+package org.amandaroseheart.hal451bot.events;
 
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 
-public class ChannelNotificationOnChannelMessage {
+public class OnChannelMessage {
 
     /**
      * Register events of this class with the EventManager/EventHandler
      *
      * @param eventHandler SimpleEventHandler
      */
-    public ChannelNotificationOnChannelMessage(SimpleEventHandler eventHandler) {
+    public OnChannelMessage(SimpleEventHandler eventHandler) {
         eventHandler.onEvent(ChannelMessageEvent.class, event -> onChannelMessage(event));
     }
 

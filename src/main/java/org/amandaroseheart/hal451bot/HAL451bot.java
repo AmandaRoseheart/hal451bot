@@ -4,7 +4,7 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
-import org.amandaroseheart.hal451bot.features.ChannelNotificationOnChannelMessage;
+import org.amandaroseheart.hal451bot.events.OnChannelMessage;
 import org.amandaroseheart.hal451bot.tasks.ShowRandomQuoteTask;
 
 import java.util.Timer;
@@ -27,7 +27,7 @@ public class HAL451bot {
     public void registerFeatures() {
         SimpleEventHandler eventHandler = twitchClient.getEventManager().getEventHandler(SimpleEventHandler.class);
         // Register Event-based features
-        ChannelNotificationOnChannelMessage channelNotificationOnChannelMessage = new ChannelNotificationOnChannelMessage(eventHandler);
+        OnChannelMessage onChannelMessage = new OnChannelMessage(eventHandler);
     }
 
     public void registerTasks() {
