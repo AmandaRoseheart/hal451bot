@@ -2,6 +2,7 @@ package org.amandaroseheart.hal451bot.events;
 
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import org.amandaroseheart.hal451bot.commands.AdvisorCommand;
 
 public class OnChannelMessage {
 
@@ -15,9 +16,9 @@ public class OnChannelMessage {
     }
 
     public void onChannelMessage(ChannelMessageEvent event) {
-        if (event.getMessage().startsWith("$test")) {
-            String message = String.format("Hello %s!", event.getUser().getName());
-            event.getTwitchChat().sendMessage(event.getChannel().getName(), message);
+        String message = event.getMessage().toLowerCase();
+        if (message.startsWith("$should i") || message.startsWith("$should we")) {
+            AdvisorCommand.execute(event);
         }
     }
 
