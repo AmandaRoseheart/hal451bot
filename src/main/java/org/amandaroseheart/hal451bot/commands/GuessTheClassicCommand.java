@@ -1,17 +1,13 @@
 package org.amandaroseheart.hal451bot.commands;
 
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import org.amandaroseheart.hal451bot.persistence.ClassicGamesDAO;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class GuessTheClassicCommand {
-
-    private static List<String> classicGames = new ArrayList<>();
 
     private static String game;
 
@@ -26,12 +22,6 @@ public class GuessTheClassicCommand {
     private static Set<Character> guessed;
 
     private static Set<Character> notGuessed;
-
-
-    static
-    {
-        readClassicGames();
-    }
 
     public static void startNewGame(ChannelMessageEvent event) {
         if (!activeGame) {
@@ -81,7 +71,7 @@ public class GuessTheClassicCommand {
     }
 
     private static void initNewGame() {
-        game = getRandomGame();
+        game = ClassicGamesDAO.getRandomGame();
         System.out.println(game);
         allCharacters = game
                 .replaceAll("[^1-9a-z]", "")
@@ -119,30 +109,6 @@ public class GuessTheClassicCommand {
 
     private static void sendMessage(ChannelMessageEvent event, String message) {
         event.getTwitchChat().sendMessage(event.getChannel().getName(), message);
-    }
-
-
-    private static String getRandomGame() {
-        return classicGames
-                .get(new Random().nextInt(classicGames.size()))
-                .toLowerCase();
-    }
-
-    private static void readClassicGames() {
-        InputStreamReader isr = new InputStreamReader(getFileAsInputStream("classic-games.txt"));
-        BufferedReader br = new BufferedReader(isr);
-        String line;
-        try {
-            while ((line = br.readLine()) != null) {
-                classicGames.add(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static InputStream getFileAsInputStream(final String fileName) {
-        return GuessTheClassicCommand.class.getClassLoader().getResourceAsStream(fileName);
     }
 
 }
