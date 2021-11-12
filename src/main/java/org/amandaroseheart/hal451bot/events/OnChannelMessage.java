@@ -3,7 +3,7 @@ package org.amandaroseheart.hal451bot.events;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import org.amandaroseheart.hal451bot.commands.AdvisorCommand;
-import org.amandaroseheart.hal451bot.commands.GuessTheClassicCommand;
+import org.amandaroseheart.hal451bot.commands.GuessTheClassicCommands;
 
 public class OnChannelMessage {
 
@@ -22,13 +22,13 @@ public class OnChannelMessage {
             AdvisorCommand.execute(event);
         }
         if (message.startsWith("!start-guess-the-classic")) {
-            GuessTheClassicCommand.startNewGame(event);
+            GuessTheClassicCommands.startNewGame(event);
         }
         if (message.startsWith("!guess")) {
-            GuessTheClassicCommand.guess(event);
+            GuessTheClassicCommands.guess(event);
         }
         if (message.startsWith("!solution")) {
-            GuessTheClassicCommand.solution(event);
+            GuessTheClassicCommands.solution(event);
         }
     }
 

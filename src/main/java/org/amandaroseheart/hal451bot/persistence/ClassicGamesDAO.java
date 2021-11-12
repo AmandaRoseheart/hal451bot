@@ -1,6 +1,6 @@
 package org.amandaroseheart.hal451bot.persistence;
 
-import org.amandaroseheart.hal451bot.commands.GuessTheClassicCommand;
+import org.amandaroseheart.hal451bot.commands.GuessTheClassicCommands;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class ClassicGamesDAO {
     }
 
     private static InputStream getFileAsInputStream(final String fileName) {
-        return GuessTheClassicCommand.class.getClassLoader().getResourceAsStream(fileName);
+        return GuessTheClassicCommands.class.getClassLoader().getResourceAsStream(fileName);
     }
 
 
