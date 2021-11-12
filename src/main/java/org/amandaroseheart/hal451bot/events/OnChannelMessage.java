@@ -18,16 +18,16 @@ public class OnChannelMessage {
 
     public void onChannelMessage(ChannelMessageEvent event) {
         String message = event.getMessage().toLowerCase();
-        if (message.startsWith("$should i") || message.startsWith("$should we")) {
+        if (message.startsWith("!should i") || message.startsWith("!should we")) {
             AdvisorCommand.execute(event);
         }
-        if (message.startsWith("$start-guess-the-classic")) {
+        if (message.startsWith("!start-guess-the-classic")) {
             GuessTheClassicCommand.startNewGame(event);
         }
-        if (message.startsWith("$guess")) {
+        if (message.startsWith("!guess")) {
             GuessTheClassicCommand.guess(event);
         }
-        if (message.startsWith("$solution")) {
+        if (message.startsWith("!solution")) {
             GuessTheClassicCommand.solution(event);
         }
     }
