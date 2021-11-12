@@ -35,7 +35,6 @@ public class GuessTheClassicCommand {
             char guessed_char = event.getMessage().toLowerCase().charAt(7);
             guessed.add(guessed_char);
             updateNotGuessed(guessed_char);
-            //todo if notGuessed = [] then you won
             sendMessage(event, displayGameState());
         }
     }
