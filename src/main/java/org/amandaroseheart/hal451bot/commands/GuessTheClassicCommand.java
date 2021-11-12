@@ -55,7 +55,7 @@ public class GuessTheClassicCommand {
     }
 
     private static void initNewGame() {
-        solution = ClassicGamesDAO.getRandomGame();
+        solution = ClassicGamesDAO.getRandomGame().toLowerCase();
         allCharacters = solution.replaceAll("[^1-9a-z]", "")
                 .chars()
                 .mapToObj(e -> (char) e).collect(Collectors.toSet());
