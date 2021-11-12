@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class GuessTheClassicCommand {
 
-    private static String game;
+    private static String solution;
 
     private static final Integer maxLives = 5;
 
@@ -40,7 +40,7 @@ public class GuessTheClassicCommand {
             updateLives(guessed_char);
             if (lives == 0) {
                 endGame();
-                sendMessage(event, "No lives left, game over!\n" + "The game was " + game + ".");
+                sendMessage(event, "No lives left, game over!\n" + "The game was " + solution + ".");
             } else {
                 guessed.add(guessed_char);
                 updateNotGuessed(guessed_char);
@@ -55,14 +55,14 @@ public class GuessTheClassicCommand {
             sendMessage(event, "No active game!");
         } else {
             String solution = event.getMessage().toLowerCase().substring(10).trim();
-            if (solution.equals(game.toLowerCase())) {
+            if (solution.equals(GuessTheClassicCommand.solution.toLowerCase())) {
                 endGame();
                 sendMessage(event, "Correct! You win!");
             } else {
                 lives -= 1;
                 if (lives == 0) {
                     endGame();
-                    sendMessage(event, "Wrong answer. No lives left, game over!\n" + "The game was " + game + ".");
+                    sendMessage(event, "Wrong answer. No lives left, game over!\n" + "The game was " + GuessTheClassicCommand.solution + ".");
                 } else {
                     sendMessage(event, "Wrong answer!\n" + constructMessage());
                 }
@@ -71,9 +71,9 @@ public class GuessTheClassicCommand {
     }
 
     private static void initNewGame() {
-        game = ClassicGamesDAO.getRandomGame();
-        System.out.println(game);
-        allCharacters = game
+        solution = ClassicGamesDAO.getRandomGame();
+        System.out.println(solution);
+        allCharacters = solution
                 .replaceAll("[^1-9a-z]", "")
                 .chars()
                 .mapToObj(e -> (char) e).collect(Collectors.toSet());
@@ -100,7 +100,7 @@ public class GuessTheClassicCommand {
     }
 
     private static String maskSolution() {
-        String maskedSolution = game;
+        String maskedSolution = solution;
         for (char c : notGuessed) {
             maskedSolution = maskedSolution.replaceAll(String.valueOf(c), "*");
         }
