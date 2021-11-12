@@ -11,10 +11,6 @@ public class GuessTheClassicCommand {
 
     private static String solution;
 
-    private static final Integer maxLives = 5;
-
-    private static Integer lives;
-
     private static Boolean activeGame = false;
 
     private static Set<Character> allCharacters;
@@ -23,34 +19,28 @@ public class GuessTheClassicCommand {
 
     private static Set<Character> notGuessed;
 
-    public static void startNewGame(ChannelMessageEvent event) {
+    public static void startNewGame(final ChannelMessageEvent event) {
         if (!activeGame) {
             initNewGame();
-            sendMessage(event, constructMessage());
+            sendMessage(event, displayGameState());
         } else {
             sendMessage(event, "First finish the current game!");
         }
     }
 
-    public static void guess(ChannelMessageEvent event) {
+    public static void guess(final ChannelMessageEvent event) {
         if (!activeGame) {
             sendMessage(event, "No active game!");
         } else {
             char guessed_char = event.getMessage().toLowerCase().charAt(7);
-            updateLives(guessed_char);
-            if (lives == 0) {
-                endGame();
-                sendMessage(event, "No lives left, game over!\n" + "The game was " + solution + ".");
-            } else {
-                guessed.add(guessed_char);
-                updateNotGuessed(guessed_char);
-                //todo if notGuessed = [] then you won
-                sendMessage(event, constructMessage());
-            }
+            guessed.add(guessed_char);
+            updateNotGuessed(guessed_char);
+            //todo if notGuessed = [] then you won
+            sendMessage(event, displayGameState());
         }
     }
 
-    public static void solution(ChannelMessageEvent event) {
+    public static void solution(final ChannelMessageEvent event) {
         if (!activeGame) {
             sendMessage(event, "No active game!");
         } else {
@@ -59,47 +49,30 @@ public class GuessTheClassicCommand {
                 endGame();
                 sendMessage(event, "Correct! You win!");
             } else {
-                lives -= 1;
-                if (lives == 0) {
-                    endGame();
-                    sendMessage(event, "Wrong answer. No lives left, game over!\n" + "The game was " + GuessTheClassicCommand.solution + ".");
-                } else {
-                    sendMessage(event, "Wrong answer!\n" + constructMessage());
-                }
+                sendMessage(event, String.format("Wrong answer!\n%s", displayGameState()));
             }
         }
     }
 
     private static void initNewGame() {
         solution = ClassicGamesDAO.getRandomGame();
-        System.out.println(solution);
-        allCharacters = solution
-                .replaceAll("[^1-9a-z]", "")
+        allCharacters = solution.replaceAll("[^1-9a-z]", "")
                 .chars()
                 .mapToObj(e -> (char) e).collect(Collectors.toSet());
         notGuessed = allCharacters;
         guessed = new HashSet<>();
         activeGame = true;
-        lives = maxLives;
     }
 
     private static void endGame() {
         activeGame = false;
     }
 
-    private static void updateLives(char guessed_char) {
-        if (!allCharacters.contains(guessed_char)) lives -= 1;
-    }
-
-    private static void updateNotGuessed(char guessed_char) {
+    private static void updateNotGuessed(final char guessed_char) {
         if (allCharacters.contains(guessed_char)) notGuessed.remove(guessed_char);
     }
 
-    private static String constructMessage() {
-        return String.format("%s lives: %s/%s", maskSolution(), lives, maxLives);
-    }
-
-    private static String maskSolution() {
+    private static String displayGameState() {
         String maskedSolution = solution;
         for (char c : notGuessed) {
             maskedSolution = maskedSolution.replaceAll(String.valueOf(c), "*");
@@ -107,7 +80,7 @@ public class GuessTheClassicCommand {
         return maskedSolution;
     }
 
-    private static void sendMessage(ChannelMessageEvent event, String message) {
+    private static void sendMessage(final ChannelMessageEvent event, String message) {
         event.getTwitchChat().sendMessage(event.getChannel().getName(), message);
     }
 
