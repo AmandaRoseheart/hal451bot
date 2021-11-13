@@ -2,6 +2,7 @@ package org.amandaroseheart.hal451bot.commands;
 
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import org.amandaroseheart.hal451bot.persistence.ClassicGamesDAO;
+import org.amandaroseheart.hal451bot.persistence.LeaderboardDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class GuessTheClassicGame {
         String answer = event.getMessage().toLowerCase().substring(10).trim();
         if (answer.equals(solution.toLowerCase())) {
             sendMessage(event, "Correct! You win!");
+            LeaderboardDAO.updateLeaderboard(event.getUser().getName());
             return true;
         } else {
             sendMessage(event, String.format("Wrong answer!\n%s", displayGameState()));

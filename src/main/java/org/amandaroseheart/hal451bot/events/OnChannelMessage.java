@@ -30,6 +30,9 @@ public class OnChannelMessage {
         if (message.startsWith("!solution")) {
             GuessTheClassicCommands.solution(event);
         }
+        if (message.startsWith("!leaderboard")) {
+            GuessTheClassicCommands.leaderboard(event);
+        }
     }
 
 }

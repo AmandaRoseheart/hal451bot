@@ -1,6 +1,7 @@
 package org.amandaroseheart.hal451bot.commands;
 
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import org.amandaroseheart.hal451bot.persistence.LeaderboardDAO;
 
 public class GuessTheClassicCommands {
 
@@ -30,6 +31,10 @@ public class GuessTheClassicCommands {
             boolean completed = game.solution(event);
             if (completed) game = null;
         }
+    }
+
+    public static void leaderboard(final ChannelMessageEvent event) {
+        sendMessage(event, LeaderboardDAO.showStandings());
     }
 
     private static Boolean noCurrentGame() {
