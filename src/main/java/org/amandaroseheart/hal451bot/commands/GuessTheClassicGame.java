@@ -3,7 +3,8 @@ package org.amandaroseheart.hal451bot.commands;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import org.amandaroseheart.hal451bot.persistence.ClassicGamesDAO;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,7 @@ public class GuessTheClassicGame {
 
     private Set<Character> allCharacters;
 
-    private Set<Character> guessed;
+    private List<Character> wrongAnswers;
 
     private Set<Character> notGuessed;
 
@@ -27,11 +28,14 @@ public class GuessTheClassicGame {
 
     public void guess(final ChannelMessageEvent event) {
         char guessed_char = event.getMessage().toLowerCase().charAt(7);
-        guessed.add(guessed_char);
+        updateWrongAnswers(guessed_char);
         updateNotGuessed(guessed_char);
         sendMessage(event, displayGameState());
     }
 
+    /**
+     * Returns true if answer is correct, false otherwise.
+     */
     public Boolean solution(final ChannelMessageEvent event) {
         String answer = event.getMessage().toLowerCase().substring(10).trim();
         if (answer.equals(solution.toLowerCase())) {
@@ -49,17 +53,29 @@ public class GuessTheClassicGame {
                 .chars()
                 .mapToObj(e -> (char) e).collect(Collectors.toSet());
         notGuessed = allCharacters;
-        guessed = new HashSet<>();
+        wrongAnswers = new ArrayList<>();
     }
 
     private void updateNotGuessed(final char guessed_char) {
         if (allCharacters.contains(guessed_char)) notGuessed.remove(guessed_char);
     }
 
+    private void updateWrongAnswers(final char guessed_char) {
+        if (!allCharacters.contains(guessed_char)) wrongAnswers.add(guessed_char);
+    }
+
     private String displayGameState() {
+        return String.format("%s %s", displayMaskedSolution(), displayWrongAnswers());
+    }
+
+    private String displayWrongAnswers() {
+        return wrongAnswers.toString().replaceAll(", ", "");
+    }
+
+    private String displayMaskedSolution() {
         String maskedSolution = solution;
         for (char c : notGuessed) {
-            maskedSolution = maskedSolution.replaceAll(String.valueOf(c), "*");
+            maskedSolution = maskedSolution.replaceAll(String.valueOf(c), "\u2022");
         }
         return maskedSolution;
     }
