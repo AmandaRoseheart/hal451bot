@@ -16,6 +16,8 @@ public class HAL451bot {
 
     private String ACCESS_TOKEN = System.getenv("ACCESS_TOKEN");
 
+    private String CHANNEL_NAME = System.getenv("CHANNEL_NAME");
+
     public HAL451bot() {
         OAuth2Credential credential = new OAuth2Credential("twitch", ACCESS_TOKEN);
         twitchClient = TwitchClientBuilder.builder()
@@ -36,7 +38,7 @@ public class HAL451bot {
     }
 
     public void start() {
-        twitchClient.getChat().joinChannel("HAL451");
+        twitchClient.getChat().joinChannel(CHANNEL_NAME);
     }
 
 }
