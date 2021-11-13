@@ -12,13 +12,13 @@ public class OnChannelMessage {
      *
      * @param eventHandler SimpleEventHandler
      */
-    public OnChannelMessage(SimpleEventHandler eventHandler) {
+    public OnChannelMessage(final SimpleEventHandler eventHandler) {
         eventHandler.onEvent(ChannelMessageEvent.class, event -> onChannelMessage(event));
     }
 
-    public void onChannelMessage(ChannelMessageEvent event) {
-        String message = event.getMessage().toLowerCase();
-        if (message.startsWith("!should i") || message.startsWith("!should we")) {
+    public void onChannelMessage(final ChannelMessageEvent event) {
+        final String message = event.getMessage().toLowerCase();
+        if (message.startsWith("!should")) {
             AdvisorCommand.execute(event);
         }
         if (message.startsWith("!start-guess-the-classic")) {
