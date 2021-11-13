@@ -41,7 +41,7 @@ public class GuessTheClassicGame {
         String answer = event.getMessage().toLowerCase().substring(10).trim();
         if (answer.equals(solution.toLowerCase())) {
             sendMessage(event, "Correct! You win!");
-            LeaderboardDAO.updateLeaderboard(event.getUser().getName());
+            LeaderboardDAO.updateLeaderboard(event.getUser().getName(), notGuessed.size());
             return true;
         } else {
             sendMessage(event, String.format("Wrong answer!\n%s", displayGameState()));
