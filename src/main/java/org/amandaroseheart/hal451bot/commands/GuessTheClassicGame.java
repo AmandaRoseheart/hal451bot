@@ -44,7 +44,7 @@ public class GuessTheClassicGame {
             LeaderboardDAO.updateLeaderboard(event.getUser().getName(), notGuessed.size());
             return true;
         } else {
-            sendMessage(event, String.format("Wrong answer!\n%s", displayGameState()));
+            sendMessage(event, String.format("Wrong answer! %s", displayGameState()));
             return false;
         }
     }
