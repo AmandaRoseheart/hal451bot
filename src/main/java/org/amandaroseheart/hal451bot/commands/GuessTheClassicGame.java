@@ -15,7 +15,7 @@ public class GuessTheClassicGame {
 
     private Set<Character> allCharacters;
 
-    private List<Character> wrongAnswers;
+    private List<Character> allAnswers;
 
     private Set<Character> notGuessed;
 
@@ -29,7 +29,7 @@ public class GuessTheClassicGame {
 
     public synchronized void guess(final ChannelMessageEvent event) {
         char guessed_char = event.getMessage().toLowerCase().charAt(7);
-        updateWrongAnswers(guessed_char);
+        allAnswers.add(guessed_char);
         updateNotGuessed(guessed_char);
         sendMessage(event, displayGameState());
     }
@@ -55,23 +55,19 @@ public class GuessTheClassicGame {
                 .chars()
                 .mapToObj(e -> (char) e).collect(Collectors.toSet());
         notGuessed = allCharacters;
-        wrongAnswers = new ArrayList<>();
+        allAnswers = new ArrayList<>();
     }
 
     private void updateNotGuessed(final char guessed_char) {
         if (allCharacters.contains(guessed_char)) notGuessed.remove(guessed_char);
     }
 
-    private void updateWrongAnswers(final char guessed_char) {
-        if (!allCharacters.contains(guessed_char)) wrongAnswers.add(guessed_char);
-    }
-
     private String displayGameState() {
-        return String.format("%s %s", displayMaskedSolution(), displayWrongAnswers());
+        return String.format("%s %s", displayMaskedSolution(), displayAllAnswers());
     }
 
-    private String displayWrongAnswers() {
-        return wrongAnswers.toString().replaceAll(", ", "");
+    private String displayAllAnswers() {
+        return allAnswers.toString().replaceAll(", ", "");
     }
 
     private String displayMaskedSolution() {
