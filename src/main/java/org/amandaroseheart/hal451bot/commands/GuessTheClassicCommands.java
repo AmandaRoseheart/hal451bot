@@ -7,7 +7,7 @@ public class GuessTheClassicCommands {
 
     private static GuessTheClassicGame game;
 
-    public static void startNewGame(final ChannelMessageEvent event) {
+    public synchronized static void startNewGame(final ChannelMessageEvent event) {
         if (noCurrentGame()) {
             game = new GuessTheClassicGame();
             game.startNewGame(event);

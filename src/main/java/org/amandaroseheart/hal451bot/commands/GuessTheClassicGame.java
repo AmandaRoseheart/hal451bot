@@ -27,7 +27,7 @@ public class GuessTheClassicGame {
         sendMessage(event, displayGameState());
     }
 
-    public void guess(final ChannelMessageEvent event) {
+    public synchronized void guess(final ChannelMessageEvent event) {
         char guessed_char = event.getMessage().toLowerCase().charAt(7);
         updateWrongAnswers(guessed_char);
         updateNotGuessed(guessed_char);
@@ -37,7 +37,7 @@ public class GuessTheClassicGame {
     /**
      * Returns true if answer is correct, false otherwise.
      */
-    public Boolean solution(final ChannelMessageEvent event) {
+    public synchronized Boolean solution(final ChannelMessageEvent event) {
         String answer = event.getMessage().toLowerCase().substring(10).trim();
         if (answer.equals(solution.toLowerCase())) {
             sendMessage(event, "Correct! You win!");
